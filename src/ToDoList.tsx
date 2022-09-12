@@ -5,6 +5,8 @@ interface IForm {
   email: string;
   name: string;
   password: string;
+  password1: string;
+  extraError: string;
 }
 
 function ToDoList() {
@@ -12,6 +14,7 @@ function ToDoList() {
     register,
     formState: { errors },
     handleSubmit,
+    setError, //에러를 발생시킴
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com", // input 창에 미리 고정된 값을 입력할 수 있음
@@ -23,8 +26,18 @@ function ToDoList() {
   //꼭 함수를 실행하여 Fn를 보내야된다.
   //formState : 에러를 꺼내서 에러만 확인할 수 있따.
 
-  const onValid = (data: any) => {};
-
+  const onValid = (data: IForm) => {
+    //setError의 장점은 에러를 내가 지정할 수 있다는 것.
+    if (data.password !== data.password1) {
+      return setError(
+        "password1",
+        { message: "일치하지 않습니다." },
+        { shouldFocus: true }
+        //패스워드가 일치하지 않다면 메시지와 focus를 주기.
+      );
+    }
+    setError("extraError", { message: "Server offline." });
+  };
   return (
     <div>
       <form onSubmit={handleSubmit(onValid)}>
@@ -45,7 +58,15 @@ function ToDoList() {
         />
         <span style={{ color: "red" }}>{errors?.email?.message}</span>
         <input
-          {...register("name", { required: true, minLength: 5 })}
+          {...register("name", {
+            required: true,
+            validate: {
+              noCoco: (value) =>
+                value.includes("coco") ? "coco는 사용하지 못합니다" : true,
+              noHi: (value) =>
+                value.includes("hi") ? "hi는 사용하지 못합니다" : true,
+            },
+          })}
           placeholder="Write a to do"
         />
         <input
@@ -56,9 +77,23 @@ function ToDoList() {
               message: "비밀번호가 너무 짧습니다...",
             },
           })}
-          placeholder="Write a to do"
+          placeholder="passsssssword"
         />
+
+        <input
+          {...register("password1", {
+            required: "Error! Password is required!",
+            minLength: {
+              value: 5,
+              message: "비밀번호가 너무 짧습니다...",
+            },
+          })}
+          placeholder="passsssssword"
+        />
+        <span style={{ color: "red" }}>{errors?.name?.message}</span>
         <span style={{ color: "red" }}>{errors?.password?.message}</span>
+        <span style={{ color: "red" }}>{errors?.password1?.message}</span>
+        <span style={{ color: "red" }}>{errors?.extraError?.message}</span>
 
         <button>Add</button>
       </form>
