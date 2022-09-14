@@ -62,25 +62,26 @@ function ToDoList() {
   const onInput = (e: React.FormEvent<HTMLSelectElement>) => {
     setCategory(e.currentTarget.value as any);
   };
-  console.log(toDos);
+
   return (
     <Container className="ToDoList">
       <Header>
         <h1>My To Do List</h1>
       </Header>
+
       <MyDiv>
         <SelectDiv>
           <select value={category} onInput={onInput}>
-            {/* <option value={Categories.TO_DO}>To Do</option>
-            <option value={Categories.DOING}>하는 중</option>
-            <option value={Categories.DONE}>완료</option> */}
-            {addOption.map((it) => (
-              <option value={it}>{it.split("_").join(" ")}</option>
+            {addOption.map((it: any) => (
+              <option key={it} value={it}>
+                {it.split("_").join(" ")}
+              </option>
             ))}
           </select>
         </SelectDiv>
         <CreateToDo />
       </MyDiv>
+
       <MyUl>
         <AddCategory />
         <h2>{category.split("_").join(" ")}</h2>

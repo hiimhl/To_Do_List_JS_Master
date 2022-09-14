@@ -9,7 +9,7 @@ function AddCategory() {
   const setAddCategory = useSetRecoilState(categoryAdd);
   const handleValid = (data: any) => {
     const makeSpace_ = data.category.split(" ").join("_");
-    setAddCategory((prev) => [...prev, makeSpace_]);
+    setAddCategory((prev: any) => [...prev, makeSpace_]);
     setValue("category", "");
   };
 

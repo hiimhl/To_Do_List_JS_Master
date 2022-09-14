@@ -77,7 +77,7 @@ function ToDo({ text, category, id }: IToDo) {
   };
 
   // 현재 카테고리 리스트에서 제외하기
-  const list = categoryList.filter((item) => item !== category);
+  const list = categoryList.filter((item: any) => item !== category);
 
   return (
     <MyLi>
@@ -85,9 +85,9 @@ function ToDo({ text, category, id }: IToDo) {
         <span>{text}</span>
 
         <div className="category_btns">
-          {list.map((it) => (
+          {list.map((it: any) => (
             <MyBtn //
-              text={it}
+              text={it.split("_").join(" ")}
               size="small"
               name={it}
               onClick={onClick}
