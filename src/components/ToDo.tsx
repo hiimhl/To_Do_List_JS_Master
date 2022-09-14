@@ -3,11 +3,33 @@ import styled from "styled-components";
 
 import { useSetRecoilState } from "recoil";
 import { IToDo, toDoState, Categories } from "../atoms";
+import MyBtn from "./MyBtn";
 
 const MyLi = styled.li`
-  background-color: red;
+  width: 100%;
+  background-color: #ffffff;
   display: flex;
-  span {
+  flex-direction: column;
+
+  // grid-template-columns: repeat(3, 3fr)
+  border-radius: 5px;
+  padding: 10px 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    span {
+      font-size: 22px;
+      padding-right: 50px;
+    }
+  }
+  .category_btns {
+    span {
+      font-size: 13px;
+      color: gray;
+      padding-right: 20px;
+    }
   }
 `;
 
@@ -35,23 +57,20 @@ function ToDo({ text, category, id }: IToDo) {
 
   return (
     <MyLi>
-      <span>{text}</span>
-      <div>
+      <div className="content">
+        <span>{text}</span>
+        <MyBtn text="삭제" type="red" />
+      </div>
+      <div className="category_btns">
+        <span>카테고리 변경하기 :</span>
         {category !== Categories.TO_DO && (
-          <button name={Categories.TO_DO} onClick={onClick}>
-            To Do
-          </button>
+          <MyBtn name={Categories.TO_DO} onClick={onClick} text="To Do" />
         )}
         {category !== Categories.DOING && (
-          <button name={Categories.DOING} onClick={onClick}>
-            Doing
-          </button>
+          <MyBtn name={Categories.DOING} onClick={onClick} text="Doing" />
         )}
-
         {category !== Categories.DONE && (
-          <button name={Categories.DONE} onClick={onClick}>
-            Done
-          </button>
+          <MyBtn name={Categories.DONE} onClick={onClick} text="Done" />
         )}
       </div>
     </MyLi>

@@ -29,11 +29,7 @@ const Header = styled.header`
   }
 `;
 
-const MyDiv = styled.div`
-  display: flex;
-  gap: 3%;
-  height: 40px;
-`;
+const MyDiv = styled.div``;
 const MyUl = styled.ul`
   list-style: none;
 `;

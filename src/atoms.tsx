@@ -2,6 +2,7 @@ import { atom, selector } from "recoil";
 
 //enum - 열거형 - 원하는 타입을 정확하게 정하는 것. - 실수할 일이 없어짐
 export enum Categories {
+  "NO" = "NO",
   "TO_DO" = "TO_DO", //값을 지정하지 않으면 기본적으로 0(인덱스)의 값을 가짐.
   "DOING" = "DOING",
   "DONE" = "DONE",
@@ -21,7 +22,7 @@ export const toDoState = atom<IToDo[]>({
 
 export const categoryState = atom<Categories>({
   key: "category",
-  default: Categories.TO_DO,
+  default: Categories.NO,
 });
 
 //Selector
