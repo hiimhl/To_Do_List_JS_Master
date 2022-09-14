@@ -2,7 +2,24 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
-import { toDoState, categoryAdd } from "../atoms";
+import { categoryAdd } from "../atoms";
+import MyBtn from "./MyBtn";
+
+const MyForm = styled.form`
+  display: flex;
+  width: 58%;
+  align-items: center;
+
+  input {
+    width: 80%;
+    flex-shrink: 3;
+    padding: 0 10px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 20px;
+  }
+`;
 
 function AddCategory() {
   const { register, setValue, handleSubmit } = useForm();
@@ -14,10 +31,10 @@ function AddCategory() {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleValid)}>
+    <MyForm onSubmit={handleSubmit(handleValid)}>
       <input {...register("category")} placeholder="Add Category" />
-      <button>저장</button>
-    </form>
+      <MyBtn text="Add" color="green" />
+    </MyForm>
   );
 }
 

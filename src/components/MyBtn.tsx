@@ -14,7 +14,7 @@ const Btn = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 10px 20px;
   font-size: 16px;
   background-color: ${(props) => props.color};
   font-family: "Do Hyeon", sans-serif;

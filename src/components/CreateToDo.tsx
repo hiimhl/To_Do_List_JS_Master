@@ -6,11 +6,18 @@ import { categoryState, toDoState } from "../atoms";
 import MyBtn from "./MyBtn";
 
 const MyForm = styled.form`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
   input {
-    width: 200px;
+    width: 86%;
+    flex-shrink: 2;
+    padding: 0 10px;
     height: 40px;
     border-radius: 5px;
     border: none;
+    // background-color: ${(props) => props.theme.yellowColor};
   }
 `;
 
@@ -37,7 +44,7 @@ function CreateToDo() {
         {...register("toDo", { required: "Write a To Do" })}
         placeholder="Write a to do"
       />
-      <MyBtn text="Add" color="red" />
+      <MyBtn text="Add" color="green" />
     </MyForm>
   );
 }
