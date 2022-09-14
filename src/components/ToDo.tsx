@@ -1,6 +1,15 @@
 import React from "react";
+import styled from "styled-components";
+
 import { useSetRecoilState } from "recoil";
 import { IToDo, toDoState, Categories } from "../atoms";
+
+const MyLi = styled.li`
+  background-color: red;
+  display: flex;
+  span {
+  }
+`;
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
@@ -25,26 +34,27 @@ function ToDo({ text, category, id }: IToDo) {
   };
 
   return (
-    <li>
+    <MyLi>
       <span>{text}</span>
+      <div>
+        {category !== Categories.TO_DO && (
+          <button name={Categories.TO_DO} onClick={onClick}>
+            To Do
+          </button>
+        )}
+        {category !== Categories.DOING && (
+          <button name={Categories.DOING} onClick={onClick}>
+            Doing
+          </button>
+        )}
 
-      {category !== Categories.TO_DO && (
-        <button name={Categories.TO_DO} onClick={onClick}>
-          To Do
-        </button>
-      )}
-      {category !== Categories.DOING && (
-        <button name={Categories.DOING} onClick={onClick}>
-          Doing
-        </button>
-      )}
-
-      {category !== Categories.DONE && (
-        <button name={Categories.DONE} onClick={onClick}>
-          Done
-        </button>
-      )}
-    </li>
+        {category !== Categories.DONE && (
+          <button name={Categories.DONE} onClick={onClick}>
+            Done
+          </button>
+        )}
+      </div>
+    </MyLi>
   );
 }
 

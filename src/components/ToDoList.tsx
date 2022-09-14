@@ -1,37 +1,64 @@
 import React from "react";
+import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { categoryState, toDoSelector, Categories } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
+import CreateCategory from "./CreateCategory";
+
+const Container = styled.div`
+  padding: 0px 20px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.bgColor};
+  font-family: ${(props) => props.theme.textFont};
+`;
+
+const Header = styled.header`
+  height: 10vh;
+  display: felx;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid gray;
+
+  h1 {
+    margin-top: 15px;
+    font-size: 3rem;
+    font-family: ${(props) => props.theme.titleText};
+    color: ${(props) => props.theme.greenColor};
+  }
+`;
+
+const MyDiv = styled.div`
+  display: flex;
+  gap: 3%;
+  height: 40px;
+`;
+const MyUl = styled.ul`
+  list-style: none;
+`;
 
 function ToDoList() {
   // const toDos = useRecoilValue(toDoState);
   const toDos = useRecoilValue(toDoSelector); //만들었던 3개의 array를 꺼는 것.
 
-  const [category, setCategory] = useRecoilState(categoryState);
-
-  const onInput = (e: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(e.currentTarget.value as any);
-  };
   console.log(toDos);
 
   return (
-    <div>
-      <h1>To Dos</h1>
-      <hr />
-      <select value={category} onInput={onInput}>
-        <option value={Categories.TO_DO}>할 일</option>
-        <option value={Categories.DOING}>하는 중</option>
-        <option value={Categories.DONE}>완료</option>
-      </select>
-      <CreateToDo />
-
-      {toDos?.map((toDo) => (
-        <ToDo key={toDo.id} {...toDo} />
-      ))}
-
-      <hr />
-    </div>
+    <Container className="ToDoList">
+      <Header>
+        <h1>My To Do List</h1>
+      </Header>
+      <MyDiv>
+        <CreateCategory />
+        <CreateToDo />
+      </MyDiv>
+      <MyUl>
+        {toDos?.map((toDo) => (
+          <ToDo key={toDo.id} {...toDo} />
+        ))}
+      </MyUl>
+    </Container>
   );
 }
 

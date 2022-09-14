@@ -57,14 +57,30 @@ table {
 }
 
 body {
-font-family: 'Titillium Web', sans-serif;
-  background-color:${(props) => props.theme.bgColor};
-  color:${(props) => props.theme.textColor}
+  font-family: 'Do Hyeon', sans-serif;
+  background-color: #ffffff;
+  color:${(props) => props.theme.textColor};
 }
 a {
   text-decoration:none;
   color:inherit;
 }
+
+// desktop
+@media (min-width: 650px) {
+  .ToDoList {
+    width: 640px;
+  }
+}
+
+// mobile 
+@media (max-width: 650px) {
+  .ToDoList {
+    width: 90vw;
+  }
+}
+
+
 `;
 
 function App() {
