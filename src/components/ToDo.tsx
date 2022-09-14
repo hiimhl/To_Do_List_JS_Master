@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useSetRecoilState } from "recoil";
-import { IToDo, toDoState, Categories } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { IToDo, toDoState, Categories, categoryAdd } from "../atoms";
 import MyBtn from "./MyBtn";
 
 const MyLi = styled.li`
@@ -11,14 +11,19 @@ const MyLi = styled.li`
   display: flex;
   flex-direction: column;
 
-  // grid-template-columns: repeat(3, 3fr)
   border-radius: 5px;
   padding: 10px 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: 10px 0;
 
   .content {
     display: flex;
     justify-content: space-between;
+
+    align-items: center;
+    text-align: center;
+
+    //text
     span {
       font-size: 22px;
       padding-right: 50px;
@@ -35,6 +40,7 @@ const MyLi = styled.li`
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoState);
+  const categoryList = useRecoilValue(categoryAdd);
 
   // Changing the Category
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,23 +61,46 @@ function ToDo({ text, category, id }: IToDo) {
     });
   };
 
+  //리스트 삭제
+  const onRemove = () => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      setToDos((prevToDos) => {
+        const targetIndex = prevToDos.findIndex((toDo) => toDo.id === id);
+        // const newToDo = { text, id, category: name as any };
+
+        return [
+          ...prevToDos.slice(0, targetIndex),
+          ...prevToDos.slice(targetIndex + 1),
+        ];
+      });
+    }
+  };
+
+  // 현재 카테고리 리스트에서 제외하기
+  const list = categoryList.filter((item) => item !== category);
+
   return (
     <MyLi>
       <div className="content">
         <span>{text}</span>
-        <MyBtn text="삭제" type="red" />
-      </div>
-      <div className="category_btns">
-        <span>카테고리 변경하기 :</span>
-        {category !== Categories.TO_DO && (
-          <MyBtn name={Categories.TO_DO} onClick={onClick} text="To Do" />
-        )}
-        {category !== Categories.DOING && (
-          <MyBtn name={Categories.DOING} onClick={onClick} text="Doing" />
-        )}
-        {category !== Categories.DONE && (
-          <MyBtn name={Categories.DONE} onClick={onClick} text="Done" />
-        )}
+
+        <div className="category_btns">
+          {list.map((it) => (
+            <MyBtn //
+              text={it}
+              size="small"
+              name={it}
+              onClick={onClick}
+            />
+          ))}
+
+          <MyBtn //
+            text="삭제"
+            color="remove"
+            size="small"
+            onClick={onRemove}
+          />
+        </div>
       </div>
     </MyLi>
   );

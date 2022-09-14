@@ -2,7 +2,6 @@ import { atom, selector } from "recoil";
 
 //enum - 열거형 - 원하는 타입을 정확하게 정하는 것. - 실수할 일이 없어짐
 export enum Categories {
-  "NO" = "NO",
   "TO_DO" = "TO_DO", //값을 지정하지 않으면 기본적으로 0(인덱스)의 값을 가짐.
   "DOING" = "DOING",
   "DONE" = "DONE",
@@ -11,8 +10,9 @@ export enum Categories {
 export interface IToDo {
   text: string;
   id: number;
-  category: Categories;
+  category: string;
 }
+export interface ICaTe {}
 
 //Atom
 export const toDoState = atom<IToDo[]>({
@@ -20,9 +20,14 @@ export const toDoState = atom<IToDo[]>({
   default: [],
 });
 
-export const categoryState = atom<Categories>({
+export const categoryState = atom({
   key: "category",
-  default: Categories.NO,
+  default: "TO_DO",
+});
+
+export const categoryAdd = atom({
+  key: "add",
+  default: ["TO_DO", "DOING", "DONE"],
 });
 
 //Selector
@@ -34,12 +39,6 @@ export const toDoSelector = selector({
     const toDos = get(toDoState); // atom 값을 가져옴.
     const category = get(categoryState);
 
-    //category에 따라 다른 값을 return함
-    if (category === Categories.TO_DO)
-      return toDos.filter((toDo) => toDo.category === Categories.TO_DO);
-    if (category === Categories.DOING)
-      return toDos.filter((toDo) => toDo.category === Categories.DOING);
-    if (category === Categories.DONE)
-      return toDos.filter((toDo) => toDo.category === Categories.DONE);
+    return toDos.filter((toDo) => toDo.category === category);
   },
 });

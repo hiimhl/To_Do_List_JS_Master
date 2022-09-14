@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoryState, toDoSelector, Categories } from "../atoms";
+import { categoryState, toDoSelector, Categories, categoryAdd } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
-import CreateCategory from "./CreateCategory";
+import AddCategory from "./AddCategory";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -29,27 +29,61 @@ const Header = styled.header`
   }
 `;
 
-const MyDiv = styled.div``;
+const MyDiv = styled.div`
+  display: flex;
+  margin: 20px 0;
+  justify-content: space-between;
+`;
 const MyUl = styled.ul`
   list-style: none;
+`;
+
+const SelectDiv = styled.div`
+  display: flex;
+
+  select {
+    font-family: "Do Hyeon", sans-serif;
+    font-size: 16px;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
 `;
 
 function ToDoList() {
   // const toDos = useRecoilValue(toDoState);
   const toDos = useRecoilValue(toDoSelector); //만들었던 3개의 array를 꺼는 것.
+  const [category, setCategory] = useRecoilState(categoryState);
+  const addOption = useRecoilValue(categoryAdd);
 
+  //Select onChange
+  const onInput = (e: React.FormEvent<HTMLSelectElement>) => {
+    setCategory(e.currentTarget.value as any);
+  };
   console.log(toDos);
-
   return (
     <Container className="ToDoList">
       <Header>
         <h1>My To Do List</h1>
       </Header>
       <MyDiv>
-        <CreateCategory />
+        <SelectDiv>
+          <select value={category} onInput={onInput}>
+            {/* <option value={Categories.TO_DO}>To Do</option>
+            <option value={Categories.DOING}>하는 중</option>
+            <option value={Categories.DONE}>완료</option> */}
+            {addOption.map((it) => (
+              <option value={it}>{it.split("_").join(" ")}</option>
+            ))}
+          </select>
+        </SelectDiv>
         <CreateToDo />
       </MyDiv>
       <MyUl>
+        <AddCategory />
+        <h2>{category.split("_").join(" ")}</h2>
         {toDos?.map((toDo) => (
           <ToDo key={toDo.id} {...toDo} />
         ))}
